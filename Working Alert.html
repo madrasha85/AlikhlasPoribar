@@ -1,0 +1,162 @@
+<!-- ==== App Working Alert (Insert inside <body>) ==== -->
+<div class="app-alert-overlay" id="appAlert" role="alertdialog" aria-modal="true" aria-labelledby="appAlertTitle" aria-describedby="appAlertDesc">
+  <div class="app-alert-card" role="document">
+    <button class="app-alert-close" aria-label="Close alert" id="appAlertClose">&times;</button>
+
+    <div class="app-alert-icon" aria-hidden="true">
+      <div class="spinner"></div>
+    </div>
+
+    <h2 id="appAlertTitle">অ্যাপে কাজ চলছে…</h2>
+    <p id="appAlertDesc">আমরা কাজ করছি — অল্প সময়ের মধ্যে সব ঠিকঠাক করা হবে। আপনার ধৈর্যের জন্য ধন্যবাদ।</p>
+
+    <div class="app-alert-actions">
+      <a href="#" class="app-alert-btn" id="appAlertOk">ঠিক আছে</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==== CSS (প্রয়োজনীয় অংশ) ==== -->
+<style>
+/* ===== App Alert — Isolated styles (won't affect other elements) ===== */
+.app-alert-overlay {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 8, 15, 0.45); /* soft dark backdrop */
+  backdrop-filter: blur(6px) saturate(120%);
+  z-index: 2147483646; /* very high to stay above almost everything */
+  padding: 20px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-alert-card{
+  position: relative;
+  width: 100%;
+  max-width: 520px; /* nice desktop width */
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  box-shadow: 0 10px 30px rgba(8,10,15,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  padding: 28px 28px 20px 28px;
+  color: #ffffff;
+  text-align: center;
+  transform: translateY(-6px);
+  animation: appAlertPop 360ms cubic-bezier(.2,.9,.3,1);
+  border: 1px solid rgba(255,255,255,0.04);
+  overflow: hidden;
+}
+
+/* Close button */
+.app-alert-close{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  border: none;
+  background: rgba(255,255,255,0.03);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+  transition: transform .18s ease, background .18s ease;
+}
+.app-alert-close:hover{ transform: scale(1.06); background: rgba(255,255,255,0.06); }
+
+/* Icon / spinner */
+.app-alert-icon{ display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+.spinner{
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  border:4px solid rgba(255,255,255,0.12);
+  border-top-color: #FF6A00; /* accent color */
+  border-right-color: #FF2B55;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 6px 18px rgba(255,106,0,0.08);
+}
+
+/* Title & text */
+.app-alert-card h2{
+  font-size:20px;
+  margin:6px 0 6px 0;
+  color:#fff;
+  letter-spacing:0.2px;
+}
+.app-alert-card p{
+  margin:0 0 16px 0;
+  color: rgba(255,255,255,0.85);
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* Action button */
+.app-alert-actions{ display:flex; justify-content:center; gap:12px; margin-top:6px; }
+.app-alert-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 18px;
+  min-width:120px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:600;
+  color:#1b1b1b;
+  background: linear-gradient(135deg, #FF6A00, #FF2B55);
+  box-shadow: 0 8px 20px rgba(255,43,85,0.12);
+  transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease;
+}
+.app-alert-btn:hover{ transform: translateY(-3px); box-shadow: 0 14px 30px rgba(255,43,85,0.18); }
+
+/* Animations */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes appAlertPop {
+  from { opacity:0; transform: translateY(6px) scale(.985); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
+}
+
+/* Responsive tweaks */
+@media (max-width: 520px) {
+  .app-alert-card { padding:18px; max-width: 92%; }
+  .spinner{ width:46px; height:46px; border-width:3.5px; }
+  .app-alert-btn{ min-width:100px; padding:9px 14px; }
+  .app-alert-card h2{ font-size:18px; }
+  .app-alert-card p{ font-size:13px; }
+}
+
+/* Provide keyboard focus visuals (accessibility) */
+.app-alert-close:focus, .app-alert-btn:focus {
+  outline: 3px solid rgba(255,106,0,0.2);
+  outline-offset:3px;
+  border-radius:8px;
+}
+</style>
+
+<!-- ==== Small JS to close the alert (optional) ==== -->
+<script>
+(function(){
+  const overlay = document.getElementById('appAlert');
+  const closeBtn = document.getElementById('appAlertClose');
+  const okBtn = document.getElementById('appAlertOk');
+
+  function hideAlert(e){
+    e && e.preventDefault();
+    if(!overlay) return;
+    overlay.style.transition = 'opacity .18s ease';
+    overlay.style.opacity = '0';
+    setTimeout(()=> { if(overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 200);
+  }
+
+  closeBtn && closeBtn.addEventListener('click', hideAlert);
+  okBtn && okBtn.addEventListener('click', hideAlert);
+
+  // close on Escape key
+  document.addEventListener('keydown', function(ev){
+    if(ev.key === 'Escape') hideAlert(ev);
+  });
+})();
+</script>
