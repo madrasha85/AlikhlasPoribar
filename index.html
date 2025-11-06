@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>আল-ইখলাস পরিবার</title>
+<style>
+/* 🔹 Base Reset */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+
+
+
+
+
+
+
+
+
+body{
+  height:100vh;
+  background: linear-gradient(135deg,#000428,#004e92);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  color:#fff;
+  position:relative;
+  z-index:1; /* বাকি উপাদানগুলো ছবির উপরে থাকবে */
+}
+
+/* 🔹 Background Image with low opacity */
+body::after {
+  content:"";
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjLxTMF1iDMGYhXiq_mVG48bgRV5PMS2fBMz2kjxY_Q2DwnB8GRyDlc58hk7hRkwSfm_J85RmhzYTfTRl7NgMArE2GwQPfMYb3IHWZoqqUxvkPz_b9N31DlP1yxpUPHPtLQyLHvlB1ubiBH8Zk2GbScir21Cntc4w0B9xYm1RF6YU553M4codGZlmSFEbG8/s1600/1%20%281%29.jpg') center/cover no-repeat;
+  opacity:50;  /* ইমেজের কম opacity */
+  z-index:-1; /* ব্যাকগ্রাউন্ডের পেছনে রাখবে */
+}
+
+/* 🔹 Animated Gradient Overlay */
+body::before{
+  content:"";
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:radial-gradient(circle at 20% 20%,rgba(255,255,255,0.1),transparent 50%),
+             radial-gradient(circle at 80% 80%,rgba(255,255,255,0.1),transparent 50%);
+  background-size:200% 200%;
+  animation: moveBg 10s infinite alternate;
+  z-index:-0.5; /* ইমেজের উপরে কিন্তু বডির উপরে না */
+}
+
+@keyframes moveBg {
+  0%{background-position:0% 0%,100% 100%;}
+  100%{background-position:100% 0%,0% 100%;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 🔹 Floating 3D Glass Header (Brown → Black Gradient + White Glow) */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(90, 40, 20, 0.95), rgba(0, 0, 0, 0.9));
+  backdrop-filter: blur(10px);
+  border-radius: 0 0 20px 20px; /* নিচের কোণা বাঁকানো */
+  box-shadow:
+    0 4px 1px rgba(255, 255, 255, 0.5), /* নিচে সাদা দাগ (glow edge) */
+    0 6px 25px rgba(0, 0, 0, 0.7);       /* নিচে গভীর ছায়া — 3D depth */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 16px;
+  z-index: 999;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* 🟣 Hover করলে হালকা ভাসবে */
+header:hover {
+  transform: translateY(3px);
+  box-shadow:
+    0 8px 25px rgba(255, 255, 255, 0.6),
+    0 6px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* 🔸 লোগো */
+header img {
+  height: 45px;
+  margin-right: 12px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* 🔸 টাইটেল */
+header h4 {
+  font-size: 14px;
+  color: #ffffff;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+  font-weight: bold;
+}
+
+/* 📱 মোবাইলের জন্য রেসপন্সিভ */
+@media (max-width: 600px) {
+  header {
+    padding: 6px 10px;
+    border-radius: 0 0 15px 15px;
+  }
+  header img {
+    height: 38px;
+    margin-right: 8px;
+  }
+  header h4 {
+    font-size: 12px;
+  }
+}
+
+
+
+/* 🔹 Notice Bar */
+.notice-bar{
+  position:fixed;
+  top:70px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,255,255,0.2);
+  border:1px solid rgba(0,255,255,0.6);
+  padding:2px 6px;
+  border-radius:8px;
+  box-shadow:0 0 15px rgba(0,255,255,0.5);
+  animation: noticeAnim 0s linear infinite;
+  z-index:9;
+}
+@keyframes noticeAnim {
+  0%{opacity:0;transform:translate(-50%,-20px) scale(0.9);}
+  10%,90%{opacity:1;transform:translate(-50%,0) scale(1);}
+  100%{opacity:0;transform:translate(-50%,20px) scale(0.9);}
+}
+
+/* 🔹 Body Layout */
+main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:2;
+  position:relative;
+  margin-top:100px;
+  margin-bottom:80px;
+}
+
+
+
+
+
+
+
+
+
+/* ---------- SLIDER STYLES ---------- */
+.slider-row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 10px 0;
+}
+.slider {
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  position: relative;
+}
+.slider img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: slideFade 10s infinite;
+}
+@keyframes slideFade {
+  0%,20% {opacity: 1;}
+  25%,45% {opacity: 0;}
+  50%,70% {opacity: 1;}
+  75%,100% {opacity: 0;}
+}
+
+/* উপরের সারি */
+.top-sliders .slider {
+  width: 45%;
+  height: 180px;
+}
+/* নিচের সারি */
+.bottom-sliders .slider {
+  width: 28%;
+  height: 100px;
+}
+
+
+
+
+
+
+
+
+/* 🔹 Enter Button */
+.enter-btn{
+  background:linear-gradient(45deg,#00ffff,#0077ff);
+  color:#000;
+  font-size:20px;
+  font-weight:bold;
+  padding:12px 30px;
+  border:none;
+  border-radius:30px;
+  box-shadow:0 5px 15px rgba(0,255,255,0.6);
+  cursor:pointer;
+  margin:20px 0;
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.enter-btn:hover{
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 10px 20px rgba(0,255,255,0.8);
+}
+
+/* 🔹 Login Modal */
+.modal{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  background:rgba(0,0,0,0.85);
+  border:2px solid cyan;
+  border-radius:20px;
+  padding:30px;
+  width:300px;
+  text-align:center;
+  box-shadow:0 0 25px cyan;
+  z-index:20;
+  transition:0.5s ease;
+}
+.modal.active{transform:translate(-50%,-50%) scale(1);}
+.modal input{
+  width:80%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  margin:10px 0;
+  text-align:center;
+}
+.modal button{
+  background:linear-gradient(45deg,#00ffff,#0077ff);
+  border:none;
+  border-radius:20px;
+  padding:10px 25px;
+  color:#000;
+  cursor:pointer;
+  box-shadow:0 0 10px cyan;
+}
+
+/* 🔹 3D Alert Animation */
+.alert3d{
+  position:fixed;
+  top:83%;left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  background:rgba(255,0,0,0.2);
+  border:2px solid red;
+  border-radius:20px;
+  padding:20px;
+  width:280px;
+  text-align:center;
+  color:#fff;
+  text-shadow:0 0 5px red;
+  box-shadow:0 0 30px red;
+  animation:alertPulse 1.2s infinite alternate;
+  z-index:30;
+  transition:0.4s;
+}
+.alert3d.active{transform:translate(-50%,-50%) scale(1);}
+@keyframes alertPulse{
+  from{box-shadow:0 0 5px red;}
+  to{box-shadow:0 0 25px red;}
+}
+/* 🔹 Footer */
+/* 🔹 Responsive Floating 3D Footer (Full-width & Fixed) */
+footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(214, 9, 146, 0.7));
+  backdrop-filter: blur(10px);
+  border-radius: 20px 20px 0 0; /* উপরের কোণা গোলাকার */
+  box-shadow:
+    0 -3px 15px rgba(214, 9, 146, 0.5), /* উপরের দিকে গোলাপি আভা */
+    0 -8px 25px rgba(0, 0, 0, 0.7);     /* নিচে ছায়া — 3D ইফেক্ট */
+  text-align: center;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #fff;
+  font-weight: bold;
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+/* 🟣 Hover এ হালকা ভাসমান অ্যানিমেশন */
+footer:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 -5px 25px rgba(214, 9, 146, 0.7),
+    0 -12px 35px rgba(0, 0, 0, 0.8);
+}
+
+/* 📱 মোবাইল ডিভাইসের জন্য সামঞ্জস্য */
+@media (max-width: 600px) {
+  footer {
+    font-size: 13px;
+    padding: 6px 0;
+    border-radius: 15px 15px 0 0;
+  }
+}
+
+
+
+
+
+/* 🔹 Responsive */
+@media (max-width:600px){
+  header h1{font-size:16px;}
+  .enter-btn{font-size:16px;padding:10px 25px;}
+  .slider img{max-width:280px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiRXYmf2TX6JD8lRKmEW1wwQ1-FmXfzDv7VpSCkLHGwXqav3IjXTWwXQFEv94tadYYKKPOCzvRj4e7KzZHc2BWKUrDPcY_3OB8OeXhnZCRE6FwKD7lYqV-oyxmG3AwjoqmY_iR7WJhGFuE5sbyizHn9VqmpYdNo52Ua5m0RZZJ_1bFjNG0X6z-VYzD_6j8R/s16000/Organization-Name.png" alt="Logo">
+
+  <h4> <marquee>“ দুনিয়া ও আখিরাতে সফলতার জন্য একসাথে চলার দল ”</marquee></h4>
+
+</header>
+
+<div class="notice-bar" id="noticeBar">🔔 স্বাগতম আমাদের পরিবারে!</div>
+
+<main>
+  <!-- Notice Section -->
+  <div class="notice-section" id="noticeSection">📢 গুরুত্বপূর্ণ ঘোষণা শীঘ্রই আসছে...</div>
+
+  <!-- Enter Button -->
+  <button class="enter-btn" onclick="openModal()">প্রবেশ করুন</button>
+
+
+
+
+
+  <!-- Top Slider Row -->
+  <div class="slider-row top-sliders">
+    <div class="slider"><img src="https://picsum.photos/seed/pic1/600/400" alt=""></div>
+    <div class="slider"><img src="https://picsum.photos/seed/pic2/600/400" alt=""></div>
+  </div>
+
+
+
+
+
+  <!-- Bottom Slider Row -->
+  <div class="slider-row bottom-sliders">
+    <div class="slider"><img src="https://picsum.photos/seed/pic3/600/400" alt=""></div>
+    <div class="slider"><img src="https://picsum.photos/seed/pic4/600/400" alt=""></div>
+    <div class="slider"><img src="https://picsum.photos/seed/pic5/600/400" alt=""></div>
+  </div>
+</div>
+
+
+
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+  <h2>🔐 লগইন</h2>
+  <p>আপনার মেম্বার কোড লিখুন</p>
+  <input type="password" id="memberCode" placeholder="মেম্বার কোড">
+  <button onclick="checkCode()">সাবমিট</button>
+</div>
+
+<!-- 3D Alert -->
+<div class="alert3d" id="alert3d">⚠️ ভুল কোড! দয়া করে সঠিক কোড দিন।</div>
+
+<footer>
+  📍 ঠিকানা: মোগরাপাড়া চৌরাস্তা,সোনারগাঁও, নারায়ণগঞ্জ।।<br> ☎ যোগাযোগ: 01813-071494 
+</footer>
+
+
+
+
+
+
+<script>
+/* 🔹 Automatic Notice Text Loop */
+const notices = [
+  "🔔 স্বাগতম আমাদের আল-ইখলাস পরিবারে!",
+  "📢 নতুন আপডেট শীঘ্রই আসছে...",
+  "💡 নতুন সদস্যদের জন্য বিশেষ অফার চলছে!",
+  "🚀 দ্রুত সেবা ও সঠিক তথ্যের নিশ্চয়তা!"
+];
+let noticeIndex = 0;
+setInterval(()=>{
+  document.getElementById('noticeBar').textContent = notices[noticeIndex];
+  noticeIndex = (noticeIndex + 1) % notices.length;
+},4000);
+
+/* 🔹 Notice Section Animation */
+const subNotices = [
+  "🎯 শরীয়াহ ভিত্তিক অনলাইন সংগঠন!",
+  "💼 বাংলাদেশে আমরাই প্রথম!",
+  "📅 আপনিও অংশগ্রহন করতে পারেন!"
+];
+let subIndex=0;
+setInterval(()=>{
+  const n=document.getElementById("noticeSection");
+  n.textContent=subNotices[subIndex];
+  subIndex=(subIndex+1)%subNotices.length;
+},5000);
+
+/* 🔹 Image Slider Logic */
+const topSlider=document.getElementById('sliderTop').querySelector('img');
+const bottomSlider=document.getElementById('sliderBottom').querySelector('img');
+const topImgs=["https://picsum.photos/seed/a/600/300","https://picsum.photos/seed/b/600/300","https://picsum.photos/seed/c/600/300"];
+const bottomImgs=["https://picsum.photos/seed/x/300/150","https://picsum.photos/seed/y/300/150","https://picsum.photos/seed/z/300/150"];
+let i=0,j=0;
+setInterval(()=>{i=(i+1)%topImgs.length;topSlider.src=topImgs[i];},4000);
+setInterval(()=>{j=(j+1)%bottomImgs.length;bottomSlider.src=bottomImgs[j];},3500);
+
+/* 🔹 Modal Control */
+function openModal(){
+  document.getElementById('loginModal').classList.add('active');
+}
+function checkCode(){
+  const code=document.getElementById('memberCode').value;
+  const correct="12345"; // নির্দিষ্ট কোড
+  if(code===correct){
+    window.location.href="newpage.html";
+  }else{
+    const alertBox=document.getElementById('alert3d');
+    alertBox.classList.add('active');
+    setTimeout(()=>alertBox.classList.remove('active'),2000);
+  }
+}
+</script>
+
+</body>
+</html>
