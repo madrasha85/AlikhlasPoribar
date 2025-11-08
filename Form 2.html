@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Receipt Form</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+body{background:#eef2f5;color:#333;}
+
+/* ---------- Header ---------- */
+header {
+  width:100%;
+  background:linear-gradient(135deg,#004e92,#000428);
+  color:#fff;
+  padding:15px 20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  border-radius:0 0 12px 12px;
+}
+.top-title{
+  text-align:center;
+  font-size:26px;
+  font-weight:bold;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+  border-bottom:1px solid rgba(255,255,255,0.25);
+  padding-bottom:6px;
+}
+.header-content{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.logo-section img{
+  width:70px;
+  height:auto;
+  background:#000000;
+  padding:2px;
+  border-radius:8px;
+  box-shadow:0 0 6px rgba(255,255,255,0.3);
+}
+.company-section{text-align:right;flex:1;}
+.company-section h2{margin:0;font-size:20px;font-weight:600;}
+.company-section p{margin:0;font-size:13px;line-height:1.4;}
+
+/* ---------- Form ---------- */
+#pdfContainer {
+  background:#fff;
+  max-width:900px;
+  margin:20px auto;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 0 12px rgba(0,0,0,0.1);
+  position:relative;
+}
+
+/* Watermark */
+#pdfContainer::before{
+  content:"";
+  background:url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQSgArKhPUUoeoKFwt8qHJcpjFp9UyodJuPBXcbu913ZuQQSL9DkQo4_7c31KmMPjh9DWFlyUJ9-Q1Dp7kMD9_1lHE0y3rq3QdKoUieUn8p25Ryx-Mdol1rdP8qMgATQSXnbzmGsEV_bHrpK6Lm8Yvrc8--VcFu7kCyVkfOgB6VEJH7OPqZnn8Yyo7N3Mk/s320/Organization-Logo.png") center no-repeat;
+  background-size:180px;
+  opacity:0.12;
+  position:absolute;
+  inset:0;
+  z-index:0;
+}
+#pdfContainer *{position:relative;z-index:1;}
+
+form h3{text-align:center;margin-bottom:20px;font-size:22px;color:#004e92;}
+
+/* Form rows: two-column */
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-bottom:12px;
+}
+.form-item{position:relative;}
+label{font-weight:600;display:block;margin-bottom:5px;color:#222;}
+
+/* Dot-style input */
+input, textarea, select{
+  width:100%;
+  padding:8px 10px;
+  font-size:14px;
+  border:none;
+  border-bottom:1px dotted #333;
+  background:transparent;
+  outline:none;
+  resize:none;
+  color:#222;
+}
+textarea{height:80px;}
+input::placeholder, select::placeholder{color:#999;}
+
+/* Receiver signature */
+.receiver{
+  text-align:right;
+  margin-top:35px;
+}
+.receiver input[type="text"]{
+  border:none;
+  border-bottom:1px dotted #000;
+  width:200px;
+  text-align:center;
+  font-weight:600;
+}
+
+/* Buttons */
+.button-area {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:30px;
+  flex-wrap:wrap;
+}
+.button-area button {
+  background:linear-gradient(135deg,#004e92,#000428);
+  color:#fff;
+  border:none;
+  padding:10px 20px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:15px;
+  flex:1;
+  min-width:100px;
+  max-width:160px;
+  transition:0.3s;
+}
+.button-area button:hover{background:#0066cc;}
+
+@media(max-width:600px){
+  .form-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+
+<body>
+<div id="pdfContainer">
+<header>
+  <div class="top-title">MONEY RECEIPT</div>
+  <div class="header-content">
+    <div class="logo-section">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiRXYmf2TX6JD8lRKmEW1wwQ1-FmXfzDv7VpSCkLHGwXqav3IjXTWwXQFEv94tadYYKKPOCzvRj4e7KzZHc2BWKUrDPcY_3OB8OeXhnZCRE6FwKD7lYqV-oyxmG3AwjoqmY_iR7WJhGFuE5sbyizHn9VqmpYdNo52Ua5m0RZZJ_1bFjNG0X6z-VYzD_6j8R/s16000/Organization-Name.png" alt="Logo">
+    </div>
+    <div class="company-section">
+      <h2>AL IKHLAS PORIBAE</h2>
+      <p>Mograpara, Sonargoan, Narayanganj<br>Phone: 01813-071494</p>
+    </div>
+  </div>
+</header>
+
+<form id="receiptForm">
+  <h3>Recipient Information</h3>
+
+  <div class="form-row">
+    <div class="form-item">
+      <label>Receipt No:</label>
+      <input type="text" id="receiptNo" readonly>
+    </div>
+    <div class="form-item">
+      <label>Date:</label>
+      <input type="date" id="selectDate" required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-item">
+      <label>সদস্যের নাম:</label>
+      <input type="text" id="name" required>
+    </div>
+    <div class="form-item">
+      <label>নমিনীর নাম:</label>
+      <input type="text" id="customerId" required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-item">
+      <label>ঠিকানা:</label>
+      <input type="text" id="address" required>
+    </div>
+    <div class="form-item">
+      <label>মন্তব্য:</label>
+      <input type="text" id="comment" required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-item">
+      <label>মাস:</label>
+      <select id="month" required>
+        <option value="">--Select--</option>
+        <option>January</option><option>February</option><option>March</option>
+        <option>April</option><option>May</option><option>June</option>
+        <option>July</option><option>August</option><option>September</option>
+        <option>October</option><option>November</option><option>December</option>
+      </select>
+    </div>
+    <div class="form-item">
+      <label>পেমেন্ট পদ্ধতি:</label>
+      <select id="method" required>
+        <option value="">--Select--</option>
+        <option>Banking</option>
+        <option>Mobile Banking</option>
+        <option>Cash</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-item">
+      <label>টাকার পরিমাণ (৳)</label>
+      <input type="number" id="amount" required>
+    </div>
+    <div class="form-item">
+      <label>পেমেন্টের ধরন:</label>
+      <select id="type">
+        <option value="">--Select--</option>
+        <option>অনুদান</option>
+        <option>মাসিক ফি</option>
+        <option>ফরম ফি</option>
+        <option>অন্যান্য</option>
+      </select>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="form-row">
+    <div class="form-item">
+      <label>Paid:</label>
+      <select id="type">
+        <option value="">--Select--</option>
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+    </div>
+    <div class="form-item">
+      <label>Due</label>
+      <input type="number" id="amount" required>
+    </div>
+  </div>
+
+
+  <div class="receiver">
+    <input type="text" placeholder="গ্রহিতার নাম">
+    <label>গ্রহিতার স্বাক্ষর :</label>
+  </div>
+
+  <div class="button-area">
+    <button type="button" onclick="saveToDrive()">Submit</button>
+    <button type="button" onclick="sharePDF()">Share</button>
+    <button type="button" onclick="printPDF()">Print</button>
+  </div>
+</form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+document.getElementById("receiptNo").value = "RCPT-" + Date.now();
+
+// Generate full page PDF (header + form + watermark)
+function generatePDF(){
+  const element = document.getElementById("pdfContainer");
+  const opt = {
+    margin: 0.5,
+    filename: `Money_Receipt_${Date.now()}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging:false },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+  return html2pdf().set(opt).from(element).outputPdf('blob');
+}
+
+// ✅ Share PDF (mobile + desktop)
+function sharePDF(){
+  generatePDF().then((pdfBlob)=>{
+    const file = new File([pdfBlob],"Money_Receipt.pdf",{type:"application/pdf"});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      navigator.share({files:[file],title:'Money Receipt',text:'Here is your receipt PDF.'});
+    } else {
+      alert('Sharing not supported. PDF will be downloaded instead.');
+      const url = URL.createObjectURL(pdfBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Money_Receipt.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  });
+}
+
+// ✅ Print PDF (A4 size, works on all devices)
+function printPDF(){
+  const element = document.getElementById("pdfContainer");
+  const opt = {
+    margin: 0.5,
+    filename: `Money_Receipt_${Date.now()}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging:false },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+    const blob = pdf.output('blob');
+    const url = URL.createObjectURL(blob);
+    const printWindow = window.open(url, '_blank');
+    if(printWindow){
+      printWindow.onload = function(){
+        printWindow.focus();
+        printWindow.print();
+      };
+    } else {
+      alert('Please allow popups to print the PDF.');
+    }
+  });
+}
+
+// ✅ Save to Google Drive
+async function saveToDrive() {
+  const pdfBlob = await generatePDF();
+  const folderId = 'YOUR_GOOGLE_DRIVE_FOLDER_ID';
+  const accessToken = 'YOUR_ACCESS_TOKEN';
+
+  const metadata = {
+    'name': `Money_Receipt_${Date.now()}.pdf`,
+    'mimeType': 'application/pdf',
+    'parents': [folderId]
+  };
+
+  const formData = new FormData();
+  formData.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
+  formData.append('file', pdfBlob);
+
+  fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + accessToken },
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.id){
+      alert('✅ Receipt saved to Google Drive!\nFile ID: '+data.id);
+    } else {
+      alert('❌ Error saving PDF');
+    }
+  }).catch(err => alert('⚠️ ' + err));
+}
+</script>
+</body>
+</html>
